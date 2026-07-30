@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'instructor_dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">{{ offering.course.title }}</li>
+    </ol>
+</nav>
+<h2>{{ offering.course.title }} <span class="text-muted fs-5">({{ offering.class_group.name }})</span></h2>
+<p>{{ offering.course.description|default:"" }}</p>
+<a href="{% url 'instructor_assignment_create' offering.id %}" class="btn btn-primary mb-3">Create Assignment</a>
+{% if assignments %}
+    <div class="list-group">
+        {% for assignment in assignments %}
+            <a href="{% url 'instructor_assignment_detail' assignment.id %}" class="list-group-item list-group-item-action">
+                {{ assignment.title }}
+                <span class="text-muted small">— Deadline: {{ assignment.deadline|date:"M d, Y H:i" }}</span>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">No assignments yet.</p>
+{% endif %}
+{% endblock %}

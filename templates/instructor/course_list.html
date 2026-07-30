@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">My Courses</h2>
+<a href="{% url 'instructor_course_create' %}" class="btn btn-primary mb-3">Create Course</a>
+<div class="row">
+    {% for offering in offerings %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>{{ offering.course.title }}</h5>
+                    <p class="text-muted">{{ offering.class_group.name }}</p>
+                    <a href="{% url 'instructor_course_detail' offering.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No courses yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

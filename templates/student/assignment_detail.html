@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'student_dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">{{ assignment.title }}</li>
+    </ol>
+</nav>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2>{{ assignment.title }}</h2>
+        <p class="text-muted">{{ assignment.course_offering.course.title }}</p>
+        <hr>
+        <p>{{ assignment.question|linebreaks }}</p>
+        <p><strong>Deadline:</strong> {{ assignment.deadline|date:"M d, Y H:i" }}</p>
+        {% if is_submitted %}
+            <div class="alert alert-success">
+                Submitted on {{ submission.submitted_at|date:"M d, Y H:i" }}.
+                {% if submission.file %}
+                    <a href="{{ submission.file.url }}" class="alert-link" target="_blank">Download file</a>
+                {% endif %}
+            </div>
+        {% elif deadline_passed %}
+            <div class="alert alert-danger">Deadline has passed. Submission is closed.</div>
+        {% else %}
+            <form method="post" enctype="multipart/form-data" class="mt-3">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" name="save" class="btn btn-secondary">Add File</button>
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

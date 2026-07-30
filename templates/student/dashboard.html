@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">My Assignments</h2>
+<div class="row">
+    {% for item in assignments %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.assignment.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ item.course.title }}</h6>
+                    <p class="small mb-2">{{ item.assignment.question|truncatewords:30 }}</p>
+                    <p class="mb-1"><strong>Deadline:</strong> {{ item.assignment.deadline|date:"M d, Y H:i" }}</p>
+                    {% if item.is_submitted %}
+                        <span class="badge bg-success">Submitted {{ item.submission.submitted_at|date:"M d H:i" }}</span>
+                    {% elif item.deadline_passed %}
+                        <span class="badge bg-danger">Deadline Passed</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Not Submitted</span>
+                    {% endif %}
+                    <a href="{% url 'student_assignment_detail' item.assignment.id %}" class="btn btn-sm btn-outline-primary mt-2">View</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No assignments available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

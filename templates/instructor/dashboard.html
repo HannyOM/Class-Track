@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">Instructor Dashboard</h2>
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-bg-primary shadow-sm">
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ total_courses }}</h3>
+                <p class="card-text">Course Offerings</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-info shadow-sm">
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ total_assignments }}</h3>
+                <p class="card-text">Assignments</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>My Courses</h4>
+    <a href="{% url 'instructor_course_create' %}" class="btn btn-primary">Create Course</a>
+</div>
+<div class="row">
+    {% for offering in offerings %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ offering.course.title }}</h5>
+                    <p class="card-text text-muted">{{ offering.course.course_code }} — {{ offering.class_group.name }}</p>
+                    <a href="{% url 'instructor_course_detail' offering.id %}" class="btn btn-sm btn-outline-primary">View Assignments</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No courses yet.</p>
+    {% endfor %}
+</div>
+{% if recent_submissions %}
+    <h4 class="mt-4 mb-3">Recent Submissions</h4>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr><th>Student</th><th>Assignment</th><th>Course</th><th>Submitted</th></tr>
+            </thead>
+            <tbody>
+                {% for sub in recent_submissions %}
+                    <tr>
+                        <td>{{ sub.student.full_name }}</td>
+                        <td>{{ sub.assignment.title }}</td>
+                        <td>{{ sub.assignment.course_offering.course.title }}</td>
+                        <td>{{ sub.submitted_at|date:"M d H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}
