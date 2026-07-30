@@ -1,0 +1,12 @@
+[project]
+name = "classtrack"
+version = "0.1.0"
+description = "ClassTrack - a class tracking application"
+readme = "README.md"
+authors = [
+    { name = "Hanny Abubakar", email = "hanny0568@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "django>=6.0.7",
+]
