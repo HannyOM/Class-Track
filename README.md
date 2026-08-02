@@ -19,8 +19,9 @@ Then open http://localhost:8000.
 
 After running `seed_data`:
 
-| Role       | Username   | Password  |
-|------------|-----------|-----------|
+| Role       | Username   | Password   |
+|------------|-----------|------------|
+| Admin      | `admin`    | `admin123` |
 | Instructor | `INST001` | password  |
 | Instructor | `INST002` | password  |
 | Student    | `STU001`  | password  |
@@ -48,7 +49,7 @@ After running `seed_data`:
 uv run python manage.py createsuperuser
 ```
 
-Then log in at `/admin/` to manage users, courses, and assignments.
+Then log in at `/admin/` with the admin credentials above (or the admin account created via `createsuperuser`) to manage users, courses, and assignments.
 
 ## Running Tests
 
@@ -66,6 +67,13 @@ dashboard/       — Student + Instructor dashboard views
 templates/       — Bootstrap 5 HTML templates
 media/           — Uploaded submission files (dev only)
 ```
+
+## Recommended Future Improvements
+
+Not yet implemented (deliberately out of MVP scope). These are recommended for a later iteration:
+
+- **Auth-gated file downloads** — media files are currently served publicly by URL in dev. A `@login_required` view that streams submissions via `FileResponse` (verifying the requesting instructor owns the assignment's `CourseOffering`) would enforce ownership (rule 4) in production.
+- **Grading / marking** — adding a score and optional feedback to `Submission`, plus a form on the instructor assignment detail page (currently marked out of scope in the MVP requirements).
 
 ## Tech Stack
 
