@@ -21,12 +21,14 @@ After running `seed_data`:
 
 | Role       | Username   | Password   |
 |------------|-----------|------------|
-| Admin      | `admin`    | `admin123` |
 | Instructor | `INST001` | password  |
 | Instructor | `INST002` | password  |
 | Student    | `STU001`  | password  |
 | Student    | `STU002`  | password  |
 | Student    | `STU003`  | password  |
+
+Admin accounts are not part of `seed_data` — create one with `createsuperuser`
+(see below).
 
 ## URLs
 
@@ -49,7 +51,7 @@ After running `seed_data`:
 uv run python manage.py createsuperuser
 ```
 
-Then log in at `/admin/` with the admin credentials above (or the admin account created via `createsuperuser`) to manage users, courses, and assignments.
+Then log in at `/admin/` with the admin account created above to manage users, courses, and assignments.
 
 ## Running Tests
 
